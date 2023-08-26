@@ -67,6 +67,7 @@ namespace Utils
     static const char *m_cmd_shadow_property = "shadow_property";
     static const char *m_cmd_region = "region";
     static const char *m_cmd_print_discover_resp_only = "print_discover_resp_only";
+    static const char *m_cmd_local_point = "local_port";
 
     CommandLineUtils::CommandLineUtils()
     {
@@ -932,6 +933,31 @@ namespace Utils
         returnData.input_thingName = cmdUtils.GetCommandRequired(m_cmd_thing_name);
         returnData.input_clientId =
             cmdUtils.GetCommandOrDefault(m_cmd_client_id, Aws::Crt::String("test-") + Aws::Crt::UUID().ToString());
+        return returnData;
+    }
+
+    cmdData parseSampleInputSecureTunnelFeature(int argc, char *argv[], Aws::Crt::ApiHandle *api_handle)
+    {
+        Utils::CommandLineUtils cmdUtils = Utils::CommandLineUtils();
+        cmdUtils.RegisterProgramName("secure-tunnel-feature");
+        cmdUtils.AddCommonMQTTCommands();
+        cmdUtils.AddCommonKeyCertCommands();
+
+        cmdUtils.RegisterCommand(m_cmd_local_point, "<port number>", "Port to local tcp connection.");
+        cmdUtils.RegisterCommand(m_cmd_thing_name, "<str>", "The name of your IOT thing");
+        cmdUtils.RegisterCommand(m_cmd_client_id, "<str>", "Client id to use (optional, default='test-*')");
+
+        s_addLoggingSendArgumentsStartLogging(argc, argv, api_handle, &cmdUtils);
+
+        cmdData returnData = cmdData();
+        s_parseCommonMQTTCommands(&cmdUtils, &returnData);
+
+        returnData.input_cert = cmdUtils.GetCommandRequired(m_cmd_cert_file);
+        returnData.input_key = cmdUtils.GetCommandRequired(m_cmd_key_file);
+        returnData.input_thingName = cmdUtils.GetCommandRequired(m_cmd_thing_name);
+        returnData.input_clientId = cmdUtils.GetCommandOrDefault(m_cmd_client_id, Aws::Crt::String("test-") + Aws::Crt::UUID().ToString());
+        returnData.input_local_port = atoi(cmdUtils.GetCommandOrDefault(m_cmd_local_point, "22").c_str());
+
         return returnData;
     }
 

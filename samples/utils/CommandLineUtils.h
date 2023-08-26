@@ -272,6 +272,7 @@ namespace Utils
         Aws::Crt::String input_clientToken;
         Aws::Crt::String input_proxyUserName;
         Aws::Crt::String input_proxyPassword;
+        uint16_t input_local_port;
         // Shadow
         Aws::Crt::String input_shadowProperty;
         // Greengrass Discovery
@@ -299,6 +300,7 @@ namespace Utils
     cmdData parseSampleInputCyclePubSub(int argc, char *argv[], Aws::Crt::ApiHandle *api_handle);
     cmdData parseSampleInputSecureTunnel(int argc, char *argv[], Aws::Crt::ApiHandle *api_handle);
     cmdData parseSampleInputSecureTunnelNotification(int argc, char *argv[], Aws::Crt::ApiHandle *api_handle);
+    cmdData parseSampleInputSecureTunnelFeature(int argc, char *argv[], Aws::Crt::ApiHandle *api_handle);
     cmdData parseSampleInputShadow(int argc, char *argv[], Aws::Crt::ApiHandle *api_handle);
 
 } // namespace Utils
